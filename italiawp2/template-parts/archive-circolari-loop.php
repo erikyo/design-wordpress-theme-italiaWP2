@@ -95,11 +95,11 @@ $i = 0; if (have_posts()) :
             </div>
 
 <?php endwhile;
-      else : get_template_part('template-parts','error');
+      else : get_template_part('template-parts/error');
       endif; ?>
 
         </div>
     </div>
 </section>
 
-<?php get_template_part('template-parts','pagination');
+<?php get_template_part('template-parts/pagination');

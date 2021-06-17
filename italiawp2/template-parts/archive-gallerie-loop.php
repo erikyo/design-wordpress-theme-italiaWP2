@@ -44,7 +44,7 @@ $i = 0; if (have_posts()) :
         }
     }
     
-    $category = get_the_category(); $first_category = $category[0];
+    $category = get_the_category();
     $datapost = get_the_date('j F Y', '', ''); ?>
                     
             <div class="col-md-4 mb32">
@@ -86,11 +86,11 @@ $i = 0; if (have_posts()) :
             </div>
 
 <?php endwhile;
-      else : get_template_part('template-parts','error');
+      else : get_template_part('template-parts/error');
       endif; ?>
 
         </div>
     </div>
 </section>
 
-<?php get_template_part('template-parts','pagination');
+<?php get_template_part('template-parts/pagination');

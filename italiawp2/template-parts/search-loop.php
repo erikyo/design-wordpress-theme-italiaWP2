@@ -42,10 +42,9 @@
 
     if (have_posts()) :
     while (have_posts()) : the_post();
-
-    $first_category = ( ($category = get_the_category()) && !empty($category) ) ? $category[0] : null;
-
-
+    
+    $category = get_the_category();
+    
     $datapost = get_the_date('j F Y', '', ''); ?>
                         
                         <div class="col-lg-4 col-md-12">
@@ -78,7 +77,7 @@
                         </div>
 
 <?php endwhile;
-      else : get_template_part('template-parts','error');
+      else : get_template_part('template-parts/error');
       endif; ?>
 
                     </div>
@@ -88,4 +87,4 @@
     </div>
 </section>
 
-<?php get_template_part('template-parts','pagination');
+<?php get_template_part('template-parts/pagination');
