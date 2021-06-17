@@ -34,12 +34,14 @@ if (!get_theme_mod('active_section_last_one_news')) {
         $do_not_duplicate = array();
         $query = new WP_Query( $args );
         
-        while ( $query->have_posts() ) : $query->the_post(); $do_not_duplicate[] = $post->ID;
+        while ( $query->have_posts() ) : $query->the_post();
+
+            $do_not_duplicate[] = $post->ID;
 
             $img_url = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'news-image');
             if ($img_url != "") {
                 $img_url = $img_url[0];
-            }else if(get_theme_mod('active_immagine_evidenza_default')) {	
+            } else if ( get_theme_mod('active_immagine_evidenza_default') ) {
                 $img_url = esc_url(get_theme_mod('immagine_evidenza_default'));
                 if($img_url=="") {
                     $img_url = esc_url( get_template_directory_uri() ) . "/images/400x220.png";
@@ -133,14 +135,14 @@ if (!get_theme_mod('active_section_last_one_news')) {
         wp_reset_postdata();
         // Fine primo loop con sticky posts
     }
-    
+
     if ($sticky < $num_articoli) {
         $allstickys = $num_articoli - $sticky;
-        
+
         // Inizializzo il secondo loop senza sticky
         $args = array (
             'posts_per_page'         => $allstickys,
-            'post__not_in'           => $do_not_duplicate
+            'post__not_in'           => !empty( $do_not_duplicate ) ? $do_not_duplicate : null
         ); 
     }
 }else{
