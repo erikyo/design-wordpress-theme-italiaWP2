@@ -301,9 +301,10 @@ function italiawp2_create_breadcrumbs() {
             $thisCat = $cat_obj->term_id;
             $thisCat = get_category($thisCat);
             $parentCat = get_category($thisCat->parent);
-            if ($thisCat->parent != 0)
-                echo get_category_parents($parentCat, TRUE, ' ');
-            echo $before . single_cat_title('', false) . $after;
+            if ($thisCat->parent != 0) {
+                echo '<li class="breadcrumb-item">' . get_category_parents($parentCat->term_id, TRUE, '<span class="separator">/</span>' ) . '</li>';
+            }
+	        echo $before . single_cat_title('', false) . $after;
         } elseif (is_day()) {
             echo '<li class="breadcrumb-item"><a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a><span class="separator">/</span></li>';
             echo '<li class="breadcrumb-item"><a href="' . get_month_link(get_the_time('Y'), get_the_time('m')) . '">' . get_the_time('F') . '</a><span class="separator">/</span></li>';
@@ -320,10 +321,11 @@ function italiawp2_create_breadcrumbs() {
                 echo '<li class="breadcrumb-item"><a href="' . $homeLink . '/' . $slug['slug'] . '/">' . $post_type->labels->singular_name . '</a><span class="separator">/</span></li>';
                 echo $before . get_the_title() . $after;
             } else {
-                $cat = get_the_category();
-                $cat = $cat[0];
-                echo '<li class="breadcrumb-item"><a href="' . get_term_link($cat->cat_ID, false) . '">' . $cat->cat_name . '</a><span class="separator">/</span></li>';
-                echo $before . get_the_title() . $after;
+                if ($cat = get_the_category()) {
+	                $cat = $cat[0];
+	                echo '<li class="breadcrumb-item"><a href="' . get_term_link($cat->cat_ID, false) . '">' . $cat->cat_name . '</a><span class="separator">/</span></li>';
+	                echo $before . get_the_title() . $after;
+                }
             }
         } elseif (!is_single() && !is_page() && get_post_type() != 'post' && !is_404() && !is_search()) {
             $post_type = get_post_type_object(get_post_type());
@@ -332,7 +334,7 @@ function italiawp2_create_breadcrumbs() {
             $parent = get_post($post->post_parent);
             $cat = get_the_category($parent->ID);
             $cat = $cat[0];
-            echo get_category_parents($cat, TRUE, ' ');
+            echo get_category_parents($cat->term_id, TRUE, ' ');
             echo '<li class="breadcrumb-item"><a href="' . get_permalink($parent) . '">' . $parent->post_title . '</a><span class="separator">/</span></li>';
             echo $before . get_the_title() . $after;
         } elseif (is_page() && !$post->post_parent) {
